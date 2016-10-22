@@ -35,3 +35,20 @@ In the main Gcode file it is necessary to uniquely identify each sub-device's co
 - G0 A.Z0 (dispenser - raise linear slide)
 - A.M9 (dispenser - turn off air pump)
 
+Alternatively, taking the lead from TinyG's Active Comments, here is an approach using those so we stick with standard Gcode.
+- G0 Z10 (move spindle to clearance height)
+- G0 X0 Y0 (move to home)
+- (DISPENSER. Make 10mm long paste line along x axis.)
+- ({Cayenn:{Dev:DispenserPaste,Cmd:LinearSlide,Axis:A}}) (This macro will insert motor config for linear slide to use A axis)
+- ; (Configure A axis to linear slide settings. 18 deg per step = 20 steps per rotate. 0.5mm per rotation )
+- ; {"4":{"sa":18,"tr":0.5,"mi":1,"po":0,"pm":3,"pl":0}}
+- ; (Axis mode is std like a linear axis. Max G0 fr 500mm/min. Travel max 72mm)
+- ; {"a":{"am":1,"vm":500,"fr":500,"tn":0,"tm":72}}
+- M7 ({Cayenn:{Dev:DispenserPaste,Cmd:AirOn}}) (Turn on Air pump)
+- G0 A-70 (Move linear slide down to -70mm)
+- M9 ({Cayenn:{Dev:DispenserPaste,Cmd:AugerOn,Speed:10}) (Turn on auger at 10mm/min output)
+- (Move 10mm along x axis)
+- G1 X10 F100 (100mm/min)
+- M7 ({Cayenn:{Dev:DispenserPaste,Cmd:AugerOff}) (Turn off auger)
+- M9 ({Cayenn:{Dev:DispenserPaste,Cmd:AirOff}}) (Turn off Air pump)
+- G0 A0 (Move linear slide back to 0)
