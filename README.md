@@ -54,6 +54,7 @@ Alternatively, taking the lead from TinyG's Active Comments, here is an approach
 - G0 A0 (Move linear slide back to 0)
 
 This Gcode works. It needs a G4 pause after each coolant command to give ESP8266 100ms to trigger the next callback on coolant pin. Also had to shorten comments to not crap out TinyG.
+```
 G21
 G0 Z10 (move spindle to clearance height)
 G0 X0 Y0 (move to home)
@@ -71,3 +72,4 @@ M9 G4 P0.1 ({Cayenn:{Dev:DispenserPaste,Cmd:AugerOff}})
 M7 G4 P0.1 ({Cayenn:{Dev:DispenserPaste,Cmd:AirOff}})
 G0 A0 (Move linear slide back to 0)
 M9 G4 P0.1
+```
