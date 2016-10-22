@@ -52,3 +52,22 @@ Alternatively, taking the lead from TinyG's Active Comments, here is an approach
 - M7 ({Cayenn:{Dev:DispenserPaste,Cmd:AugerOff}}) (Turn off auger)
 - M9 ({Cayenn:{Dev:DispenserPaste,Cmd:AirOff}}) (Turn off Air pump)
 - G0 A0 (Move linear slide back to 0)
+
+This Gcode works. It needs a G4 pause after each coolant command to give ESP8266 100ms to trigger the next callback on coolant pin. Also had to shorten comments to not crap out TinyG.
+G21
+G0 Z10 (move spindle to clearance height)
+G0 X0 Y0 (move to home)
+M7 G4 P0.1 ({Cayenn:{Dev:"DispenserPaste",Cmd:"LinearSlide",Axis:"A"}})
+(Configure A axis to linear slide settings. )
+{"4":{"sa":18,"tr":0.5,"mi":1,"po":0,"pm":3,"pl":0}}
+(Axis mode is std like a linear axis.)
+{"a":{"am":1,"vm":500,"fr":500,"tn":0,"tm":72}}
+M9 G4 P0.1 ({Cayenn:{Dev:DispenserPaste,Cmd:AirOn}}) (Turn on Air pump)
+G0 A-70 (Move linear slide down to -70mm)
+M7 G4 P0.1 ({Cayenn:{Dev:DispenserPaste,Cmd:AugerOn,Speed:10}})
+(Move 10mm along x axis)
+G1 X10 F100 (100mm/min)
+M9 G4 P0.1 ({Cayenn:{Dev:DispenserPaste,Cmd:AugerOff}})
+M7 G4 P0.1 ({Cayenn:{Dev:DispenserPaste,Cmd:AirOff}})
+G0 A0 (Move linear slide back to 0)
+M9 G4 P0.1
