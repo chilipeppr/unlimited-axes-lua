@@ -73,3 +73,29 @@ M7 G4 P0.1 ({Cayenn:{Dev:DispenserPaste,Cmd:AirOff}})
 G0 A0 (Move linear slide back to 0)
 M9 G4 P0.1
 ```
+I found that I could do a 10ms pause G4 P0.01 to get the triggering correct on ESP8266. It may be safer to do 100ms pause G4 P0.1 to ensure that ESP8266 has registered the next trigger callback.
+```
+G21
+G0 Z10 (move spindle to clearance height)
+G0 X0 Y0 (move to home)
+M7 G4 P0.01 ({Cayenn:{Dev:"DispenserPaste",Cmd:"LinearSlide",Axis:"A"}})
+M9
+(Configure A axis to linear slide settings. )
+{"4":{"sa":18,"tr":0.5,"mi":1,"po":0,"pm":3,"pl":0}}
+(Axis mode is std like a linear axis.)
+{"a":{"am":1,"vm":500,"fr":500,"tn":0,"tm":72}}
+M7 G4 P0.01 ({Cayenn:{Dev:DispenserPaste,Cmd:AirOn}}) (Turn on Air pump)
+M9
+G0 A-70 (Move linear slide down to -70mm)
+M7 G4 P0.01 ({Cayenn:{Dev:DispenserPaste,Cmd:AugerOn,Speed:10}})
+M9
+(Move 10mm along x axis)
+G1 X5 F100 (100mm/min)
+M7 G4 P0.01 ({Cayenn:{Dev:DispenserPaste,Cmd:AugerOff}})
+M9
+M7 G4 P0.01 ({Cayenn:{Dev:DispenserPaste,Cmd:AirOff}})
+M9
+G0 A0 (Move linear slide back to 0)
+M7 G4 P0.01 
+M9
+```
