@@ -81,7 +81,7 @@ G0 X0 Y0 (move to home)
 M7 G4 P0.01 ({Cayenn:{Dev:"DispenserPaste",Cmd:"LinearSlide",Axis:"A"}})
 M9
 (Configure A axis to linear slide settings. )
-{"4":{"sa":18,"tr":0.5,"mi":1,"po":0,"pm":3,"pl":0}}
+{"1":{"sa":18,"tr":0.5," mi":1,"po":1,"p m":3,"pl":0}}
 (Axis mode is std like a linear axis.)
 {"a":{"am":1,"vm":500,"fr":500,"tn":0,"tm":72}}
 M7 G4 P0.01 ({Cayenn:{Dev:DispenserPaste,Cmd:AirOn}}) (Turn on Air pump)
