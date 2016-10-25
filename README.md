@@ -78,7 +78,7 @@ I found that I could do a 10ms pause G4 P0.01 to get the triggering correct on E
 G21
 G0 Z10 (move spindle to clearance height)
 G0 X0 Y0 (move to home)
-M7 G4 P0.01 ({Cayenn:{Dev:"DispenserPaste",Cmd:"LinearSlide",Axis:"A"}})
+M7 G4 P0.01 ({Cayenn:{Dev:"DispenserPaste",Cmd:"LinearSlideOn",Axis:"A"}})
 M9
 (Configure A axis to linear slide settings. )
 {"1":{"sa":18,"tr":0.5," mi":1,"po":1,"p m":3,"pl":0}}
@@ -95,7 +95,24 @@ M7 G4 P0.01 ({Cayenn:{Dev:DispenserPaste,Cmd:AugerOff}})
 M9
 M7 G4 P0.01 ({Cayenn:{Dev:DispenserPaste,Cmd:AirOff}})
 M9
-G0 A0 (Move linear slide back to 0)
-M7 G4 P0.01 
+G0 A0 X0 (Move linear slide back to 0 while moving X)
+M7 G4 P0.01 ({Cayenn:{Dev:DispenserPaste,Cmd:LinearSlideOff}})
 M9
+```
+
+When you write your Gcode, do this:
+```
+G21
+G0 Z10 (move spindle to clearance height)
+G0 X0 Y0 (move to home)
+({Cayenn:{Dev:"DispenserPaste",Cmd:"LinearSlideOn",MapToAxis:"A"}})
+({Cayenn:{Dev:DispenserPaste,Cmd:AirOn}}) (Turn on Air pump)
+G0 A-70 (Move linear slide down to -70mm)
+({Cayenn:{Dev:DispenserPaste,Cmd:AugerOn,Speed:10}})
+(Move 10mm along x axis)
+G1 X5 F100 (100mm/min)
+({Cayenn:{Dev:DispenserPaste,Cmd:AugerOff}})
+({Cayenn:{Dev:DispenserPaste,Cmd:AirOff}})
+G0 A0 X0 (Move linear slide back to 0 while moving X)
+({Cayenn:{Dev:DispenserPaste,Cmd:LinearSlideOff}})
 ```
